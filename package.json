@@ -1,0 +1,22 @@
+{
+  "name": "houkou",
+  "description": "Teeny tiny router for node and the browser",
+  "version": "0.0.1",
+  "author": {
+    "name": "Conrad Pankoff",
+    "email": "deoxxa@fknsrs.biz",
+    "url": "http://www.fknsrs.biz/"
+  },
+  "url": "http://github.com/deoxxa/houkou",
+  "license" : "BSD",
+  "repository" : { "type":"git", "url":"git://github.com/deoxxa/houkou.git" },
+  "keywords" : [
+    "houkou",
+    "ender",
+    "route",
+    "router",
+    "routing",
+    "browser"
+  ],
+  "main": "./houkou"
+}
