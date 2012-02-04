@@ -27,12 +27,12 @@ Example Usage
 -------------
 
 ```javascript
-    var Houkou = require("houkou");
-    var route = new Houkou("/post/:id(\\d+)/:title");
-    var params = route.match("/post/123/this-is-an-example-post");
-    console.log(params);
-    var url = route.build(params);
-    console.log(url);
+var Houkou = require("houkou");
+var route = new Houkou("/post/:id(\\d+)/:title");
+var params = route.match("/post/123/this-is-an-example-post");
+console.log(params);
+var url = route.build(params);
+console.log(url);
 ```
 
 License
