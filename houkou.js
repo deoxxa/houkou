@@ -22,6 +22,8 @@ Houkou.prototype.match = function(url) {
   if (matches = this.pattern.exec(url)) {
     matches.shift();
     return merge(this.parameters, matches);
+  } else {
+    return false;
   }
 };
 
