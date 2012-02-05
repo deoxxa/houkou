@@ -18,5 +18,11 @@
     "routing",
     "browser"
   ],
-  "main": "./houkou"
+  "main": "./houkou",
+  "devDependencies": {
+    "vows": "*"
+  },
+  "scripts": {
+    "test": "vows"
+  }
 }
