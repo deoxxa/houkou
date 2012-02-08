@@ -24,7 +24,7 @@ vows.describe("Matching")
         assert.isFalse(route.match(""));
       },
     },
-    "/hello/:name": {
+    "/hello/:name (no requirements)": {
       topic: new Houkou("/hello/:name"),
       "should resolve /hello/friend to an object {name: \"friend\"}": function(route) {
         assert.isObject(route.match("/hello/friend"));
@@ -35,8 +35,8 @@ vows.describe("Matching")
         assert.equal(route.match("/hello/とっと").name, "とっと");
       },
     },
-    "/hello/:name([a-z]+)": {
-      topic: new Houkou("/hello/:name([a-z]+)"),
+    "/hello/:name (:name only alphanumeric)": {
+      topic: new Houkou("/hello/:name", {requirements: {name: "[a-z]+"}}),
       "should resolve /hello/friend to an object {name: \"friend\"}": function(route) {
         assert.isObject(route.match("/hello/friend"));
         assert.equal(route.match("/hello/friend").name, "friend");
@@ -45,8 +45,8 @@ vows.describe("Matching")
         assert.isFalse(route.match("/hello/とっと"));
       },
     },
-    "/hello/:name\\.:format(json|html)": {
-      topic: new Houkou("/hello/:name(.+?)\\.:format(json|html)"),
+    "/hello/:name.:format (:format either json or html)": {
+      topic: new Houkou("/hello/:name.:format", {requirements: {format: "json|html"}}),
       "should not resolve /hello/friend": function(route) {
         assert.isFalse(route.match("/hello/friend"));
       },
