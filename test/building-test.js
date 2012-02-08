@@ -18,7 +18,7 @@ vows.describe("Building")
         assert.equal(route.build(), "/");
       },
     },
-    "/hello/:name": {
+    "/hello/:name (no requirements)": {
       topic: new Houkou("/hello/:name"),
       "should return /hello/friend with argument {name: \"friend\"}": function(route) {
         assert.isString(route.build({name: "friend"}));
@@ -29,8 +29,8 @@ vows.describe("Building")
         assert.equal(route.build({name: "とっと"}), "/hello/とっと");
       },
     },
-    "/hello/:name([a-z]+)": {
-      topic: new Houkou("/hello/:name([a-z]+)"),
+    "/hello/:name (:name only alphanumeric)": {
+      topic: new Houkou("/hello/:name", {requirements: {name: "[a-z]+"}}),
       "should return /hello/friend with argument {name: \"friend\"}": function(route) {
         assert.isString(route.build({name: "friend"}));
         assert.equal(route.build({name: "friend"}), "/hello/friend");
@@ -39,8 +39,8 @@ vows.describe("Building")
         assert.isFalse(route.build({name: "とっと"}));
       },
     },
-    "/hello/:name(.+?)\\.:format(json|html)": {
-      topic: new Houkou("/hello/:name(.+?)\.:format(json|html)"),
+    "/hello/:name.:format (:format either json or html)": {
+      topic: new Houkou("/hello/:name.:format", {requirements: {format: "json|html"}}),
       "should build /hello/friend.json with object {name: \"friend\", format: \"json\"}": function(route) {
         assert.isString(route.build({name: "friend", format: "json"}));
         assert.equal(route.build({name: "friend", format: "json"}), "/hello/friend.json");

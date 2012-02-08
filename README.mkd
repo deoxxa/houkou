@@ -8,27 +8,30 @@ Overview
 
 Houkou is a very simple (but surprisingly featureful) router written in
 JavaScript, targeted towards both Node.JS and the browser. It has no external
-dependencies and currently weighs in at under a kilobyte uncompressed.
+dependencies and currently weighs in at just over a kilobyte uncompressed.
 
 Features
 --------
 
 1. Simple, clear syntax
 2. Named route parameters
-3. Reverse routing (generate urls from routes)
+3. Custom parameter regexes
+4. Reverse routing (generate urls from routes)
+5. Fully tested (check test directory)
 
 Documentation
 -------------
 
 There's not much to be documented, fortunately! The example below should cover
-just about everything (seriously).
+just about everything (seriously). There's some tests in the test directory as
+well if you want some more examples.
 
 Example Usage
 -------------
 
 ```javascript
 var Houkou = require("houkou");
-var route = new Houkou("/post/:id(\\d+)/:title");
+var route = new Houkou("/post/:id/:title", {requirements: {id: "[0-9]+"}});
 var params = route.match("/post/123/this-is-an-example-post");
 console.log(params);
 var url = route.build(params);
