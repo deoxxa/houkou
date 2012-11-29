@@ -56,5 +56,14 @@ vows.describe("Matching")
         assert.equal(route.match("/hello/friend.json").format, "json");
       },
     },
+    "document:section:!section:page:!page (custom parameter token char)": {
+      topic: new Houkou("document:!id:section:!section:page:!page", {paramChar: '!'}),
+      "should match document:1:section:1:page:1": function (route) {
+        assert.isObject(route.match("document:1:section:1:page:1"));
+        assert.equal(route.match("document:1:section:1:page:1").id, "1");
+        assert.equal(route.match("document:1:section:1:page:1").section, "1");
+        assert.equal(route.match("document:1:section:1:page:1").page, "1");
+      }
+    }
   })
 .export(module);

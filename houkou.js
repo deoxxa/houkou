@@ -8,7 +8,7 @@ function merge(a, b) {
 
 function Houkou(pattern, cfg) {
   if (!(this instanceof Houkou)) {
-    return new Houkou(pattern);
+    return new Houkou(pattern, cfg);
   }
 
   var self = this;
@@ -16,11 +16,26 @@ function Houkou(pattern, cfg) {
   this.cfg = cfg || {};
   this.cfg.requirements || (this.cfg.requirements = {});
   this.cfg.defaults || (this.cfg.defaults = {});
+  this.cfg.paramChar || (this.cfg.paramChar = ':');
 
-  this.parameters = (pattern.match(/:([a-z_]+)/gi) || []).map(function(p) { return p.substr(1); });
-  this.pattern = new RegExp(("^" + pattern.replace(/\//g, "\\/").replace(/\./g, "\\.").replace(/:([a-z_]+)/gi, function(m,t) { return "(" + (self.cfg.requirements[t] || ".+?") + ")"}) + "$"));
-  this.build = new Function("v", 'return "' + pattern.replace(/:([a-z_]+)/gi, '" + (v["$1"] || this.cfg.defaults["$1"]) + "') + '";');
+  var paramRegx = new RegExp(this.cfg.paramChar + '([a-z_]+)', 'gi');
+
+  this.parameters = (pattern.match(paramRegx) || []).map(function(p) { return p.substr(1); });
+  this.pattern = new RegExp(("^" + pattern.replace(/\//g, "\\/").replace(/\./g, "\\.").replace(paramRegx, function(m,t) { return "(" + (self.cfg.requirements[t] || ".+?") + ")"; }) + "$"));
+  this.build = new Function("v", 'return !this.validate(v) ? false : "' + pattern.replace(paramRegx, '" + (v["$1"] || this.cfg.defaults["$1"]) + "') + '";');
 }
+
+Houkou.prototype.validate = function (params) {
+  for (var param in params) {
+    if (!params.hasOwnProperty(param) || !this.cfg.requirements[param]) {
+      continue;
+    }
+    if (!RegExp(this.cfg.requirements[param]).test(params[param])) {
+      return false;
+    }
+  }
+  return true;
+};
 
 Houkou.prototype.match = function(url) {
   var matches;
