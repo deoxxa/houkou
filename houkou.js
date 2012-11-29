@@ -8,7 +8,7 @@ function merge(a, b) {
 
 function Houkou(pattern, cfg) {
   if (!(this instanceof Houkou)) {
-    return new Houkou(pattern);
+    return new Houkou(pattern, cfg);
   }
 
   var self = this;
