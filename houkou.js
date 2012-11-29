@@ -18,9 +18,21 @@ function Houkou(pattern, cfg) {
   this.cfg.defaults || (this.cfg.defaults = {});
 
   this.parameters = (pattern.match(/:([a-z_]+)/gi) || []).map(function(p) { return p.substr(1); });
-  this.pattern = new RegExp(("^" + pattern.replace(/\//g, "\\/").replace(/\./g, "\\.").replace(/:([a-z_]+)/gi, function(m,t) { return "(" + (self.cfg.requirements[t] || ".+?") + ")"}) + "$"));
-  this.build = new Function("v", 'return "' + pattern.replace(/:([a-z_]+)/gi, '" + (v["$1"] || this.cfg.defaults["$1"]) + "') + '";');
+  this.pattern = new RegExp(("^" + pattern.replace(/\//g, "\\/").replace(/\./g, "\\.").replace(/:([a-z_]+)/gi, function(m,t) { return "(" + (self.cfg.requirements[t] || ".+?") + ")"; }) + "$"));
+  this.build = new Function("v", 'return !this.validate(v) ? false : "' + pattern.replace(/:([a-z_]+)/gi, '" + (v["$1"] || this.cfg.defaults["$1"]) + "') + '";');
 }
+
+Houkou.prototype.validate = function (params) {
+  for (var param in params) {
+    if (!params.hasOwnProperty(param) || !this.cfg.requirements[param]) {
+      continue;
+    }
+    if (!RegExp(this.cfg.requirements[param]).test(params[param])) {
+      return false;
+    }
+  }
+  return true;
+};
 
 Houkou.prototype.match = function(url) {
   var matches;
