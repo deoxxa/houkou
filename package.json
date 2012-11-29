@@ -1,7 +1,7 @@
 {
   "name": "houkou",
   "description": "Teeny tiny router for node and the browser",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "author": {
     "name": "Conrad Pankoff",
     "email": "deoxxa@fknsrs.biz",
