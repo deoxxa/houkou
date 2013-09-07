@@ -22,7 +22,7 @@ Features
 Users
 -----
 
-* [wham](http://npm.im/wham)
+* [wham](http://npm.im/wham) - "whimsical web framework"
 * [contact me](mailto:deoxxa@fknsrs.biz) to get your package listed!
 
 Documentation
