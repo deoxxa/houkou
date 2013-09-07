@@ -29,13 +29,40 @@ well if you want some more examples.
 Example Usage
 -------------
 
+Code:
+
 ```javascript
 var Houkou = require("houkou");
+
+// create a new route
 var route = new Houkou("/post/:id/:title", {requirements: {id: "[0-9]+"}});
+
+// parse a url according to our route definition
 var params = route.match("/post/123/this-is-an-example-post");
+
+// print it out all pretty-like
+console.log("Parsed:");
 console.log(params);
+console.log("");
+
+// construct a url using our route as a template, filling in the variables with
+// those supplied
 var url = route.build(params);
+
+// dump!
+console.log("Generated:");
 console.log(url);
+console.log("");
+```
+
+Output:
+
+```
+Parsed:
+{ id: '123', title: 'this-is-an-example-post' }
+
+Generated:
+/post/123/this-is-an-example-post
 ```
 
 License
