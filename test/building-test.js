@@ -45,6 +45,13 @@ vows.describe("Building")
         assert.isString(route.build({name: "friend", format: "json"}));
         assert.equal(route.build({name: "friend", format: "json"}), "/hello/friend.json");
       },
-    }
+    },
+    "/hello/:num (:num is 0)": {
+      topic: new Houkou("/hello/:num", {requirements: {num: "[0-9]+"}}),
+      "should build /hello/num with object {num: 0}": function(route) {
+        assert.isString(route.build({num: 0}));
+        assert.equal(route.build({num: 0}), "/hello/0");
+      },
+    },
   })
 .export(module);

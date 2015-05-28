@@ -22,10 +22,10 @@ function Houkou(pattern, cfg) {
 
   this.parameters = (pattern.match(paramRegx) || []).map(function(p) { return p.substr(1); });
   this.pattern = new RegExp(("^" + pattern.replace(/\//g, "\\/").replace(/\./g, "\\.").replace(paramRegx, function(m,t) { return "(" + (self.cfg.requirements[t] || ".+?") + ")"; }) + "$"));
-  this.build = new Function("v", 'return !this.validate(v) ? false : "' + pattern.replace(paramRegx, '" + (v["$1"] || this.cfg.defaults["$1"]) + "') + '";');
+  this.build = new Function("v", 'return !this.validate(v) ? false : "' + pattern.replace(paramRegx, '" + ((typeof v["$1"] !== "undefined" && v["$1"] !== null) ? v["$1"] : this.cfg.defaults["$1"]) + "') + '";');
 }
 
-Houkou.prototype.validate = function (params) {
+Houkou.prototype.validate = function(params) {
   for (var param in params) {
     if (!params.hasOwnProperty(param) || !this.cfg.requirements[param]) {
       continue;
